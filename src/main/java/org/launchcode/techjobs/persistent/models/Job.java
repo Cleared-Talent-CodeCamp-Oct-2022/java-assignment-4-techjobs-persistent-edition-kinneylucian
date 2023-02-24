@@ -1,51 +1,53 @@
 package org.launchcode.techjobs.persistent.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class Job{
+public class Job extends AbstractEntity {
 
-    @Id
-    @GeneratedValue
-    private int id;
+    @ManyToOne
+    private Employer employer;
 
-    private String name;
-
-    private String employer;
-    private String skills;
+    @ManyToMany
+    @NotNull
+    @Size(min = 1, max = 50)
+    private List<Skill> skills = new ArrayList<>();
 
     public Job() {
-    }
-
-    public Job(String anEmployer, String someSkills) {
         super();
-        this.employer = anEmployer;
-        this.skills = someSkills;
     }
 
-    // Getters and setters.
-
-    public String getName() {
-        return name;
+    public Job(Employer employer, List<Skill> skills) {
+        super();
+        this.employer = employer;
+        this.skills = skills;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmployer() {
+    public Employer getEmployer() {
         return employer;
     }
 
-    public void setEmployer(String employer) {
+    public void setEmployer(Employer employer) {
         this.employer = employer;
     }
 
-    public String getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(String skills) {
+    public void setSkills(List<Skill> skills) {
         this.skills = skills;
+    }
+
+    public void addSkill(Skill skill) {
+        skills.add(skill);
+    }
+
+    public void removeSkill(Skill skill) {
+        skills.remove(skill);
     }
 }
